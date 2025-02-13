@@ -1,0 +1,24 @@
+CODE:
+
+import numpy as np
+
+# Step 1: Create a random tensor of shape (4, 6)
+tensor = np.random.uniform(size=(4, 6))
+
+# Step 2: Find rank and shape
+rank = np.ndim(tensor)
+shape = np.shape(tensor)
+print(f"Original Tensor Rank: {rank}, Shape: {shape}")
+
+# Step 3: Reshape to (2, 3, 4) and transpose to (3, 2, 4)
+reshaped_tensor = np.reshape(tensor, (2, 3, 4))
+transposed_tensor = np.transpose(reshaped_tensor, (1, 0, 2))
+print(f"Reshaped Tensor Shape: {reshaped_tensor.shape}")
+print(f"Transposed Tensor Shape: {transposed_tensor.shape}")
+
+# Step 4: Broadcasting a smaller tensor (1, 4) to match (3, 2, 4)
+small_tensor = np.random.uniform(size=(1, 4))
+broadcasted_tensor = np.broadcast_to(small_tensor, (3, 2, 4))
+added_tensor = transposed_tensor + broadcasted_tensor
+print(f"Broadcasted Tensor Shape: {broadcasted_tensor.shape}")
+print(f"Resulting Tensor Shape after Addition: {added_tensor.shape}")
