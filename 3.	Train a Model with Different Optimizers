@@ -1,0 +1,43 @@
+CODE:
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import SGDClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score
+
+# Step 1: Load the MNIST-like Digits dataset (local alternative to OpenML MNIST)
+digits = load_digits()
+X, y = digits.data / 16.0, digits.target  # Normalize data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Standardize the data
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Step 2: Train models with Adam and SGD optimizers
+adam_model = MLPClassifier(hidden_layer_sizes=(128,), activation='relu', solver='adam', max_iter=20, random_state=42)
+sgd_model = MLPClassifier(hidden_layer_sizes=(128,), activation='relu', solver='sgd', learning_rate_init=0.01, max_iter=20, random_state=42)
+
+adam_model.fit(X_train, y_train)
+sgd_model.fit(X_train, y_train)
+
+# Step 3: Compute training and validation accuracy
+adam_train_acc = accuracy_score(y_train, adam_model.predict(X_train))
+adam_val_acc = accuracy_score(y_test, adam_model.predict(X_test))
+sgd_train_acc = accuracy_score(y_train, sgd_model.predict(X_train))
+sgd_val_acc = accuracy_score(y_test, sgd_model.predict(X_test))
+
+# Step 4: Compare training and validation accuracy trends
+labels = ['Adam Train', 'Adam Val', 'SGD Train', 'SGD Val']
+values = [adam_train_acc, adam_val_acc, sgd_train_acc, sgd_val_acc]
+
+plt.figure(figsize=(8, 5))
+plt.bar(labels, values, color=['blue', 'orange', 'blue', 'orange'])
+plt.ylabel('Accuracy')
+plt.title('Comparison of Adam vs. SGD on Digits Dataset')
+plt.show()
