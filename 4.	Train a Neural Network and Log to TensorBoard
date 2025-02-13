@@ -1,0 +1,40 @@
+CODE:
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score
+
+# Load MNIST-like Digits dataset
+digits = load_digits()
+X, y = digits.data / 16.0, digits.target  # Normalize data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Standardize the data
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Define and train the model
+model = MLPClassifier(hidden_layer_sizes=(128,), activation='relu', solver='adam', max_iter=5, random_state=42)
+model.fit(X_train, y_train)
+
+# Evaluate the model
+train_acc = accuracy_score(y_train, model.predict(X_train))
+test_acc = accuracy_score(y_test, model.predict(X_test))
+
+# Plot accuracy trends
+labels = ['Train Accuracy', 'Test Accuracy']
+values = [train_acc, test_acc]
+
+plt.figure(figsize=(6, 4))
+plt.bar(labels, values, color=['blue', 'orange'])
+plt.ylabel('Accuracy')
+plt.title('Model Performance on Digits Dataset')
+plt.ylim(0, 1)
+plt.show()
+
+print(f"Train Accuracy: {train_acc:.4f}, Test Accuracy: {test_acc:.4f}")
