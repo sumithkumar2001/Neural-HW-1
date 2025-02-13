@@ -1,0 +1,17 @@
+1.	What patterns do you observe in the training and validation accuracy curves?
+ANS: The training accuracy increases over time, showing that the model is learning. 
+     The validation accuracy may also improve but can go up and down due to overfitting. 
+     If the training accuracy is much higher than the validation accuracy, the model is overfitting.
+     A small difference between them means the model is learning well and can work on new data.
+
+2.	How can you use TensorBoard to detect overfitting?
+ANS: In TensorBoard, you can check the training and validation loss graphs. 
+     If the training loss keeps going down but the validation loss starts going up, the model is overfitting.
+     You can also compare accuracy graphs—if training accuracy is much higher than validation accuracy, overfitting is happening. 
+     Watching these patterns helps decide when to stop training or adjust the model.
+
+3.  What happens when you increase the number of epochs?
+ANS: When you increase the number of epochs, the model keeps learning from the data. 
+     At first, both training and validation accuracy improve, but after some point, the model may start overfitting.
+     This means the training accuracy stays high, but validation accuracy stops improving or gets worse.
+     Choosing the right number of epochs helps the model learn well without overfitting.
